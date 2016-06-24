@@ -8,70 +8,178 @@
 
 #import "SZButton.h"
 
-#ifdef DEBUG
-#define CLog(fmt, ...) NSLog((@" %d %s " fmt), __LINE__, __PRETTY_FUNCTION__,  ##__VA_ARGS__)
-#else
-#define CLog(fmt, ...) do{}while(0)
-#endif
+@interface SZButton ()
+
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *imageView;
+
+@end
 
 @implementation SZButton
 
-- (CGSize)szFittingSize {
-    CGSize imageSize = self.currentImage.size;
-    CGSize titleSize = [self.currentTitle boundingRectWithSize:CGSizeZero
-                                                       options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                                                    attributes:@{NSFontAttributeName: self.titleLabel.font}
-                                                       context:nil].size;
-
-    if (_layoutImageTitleVertical) {
-        return CGSizeMake(MAX(imageSize.width, titleSize.width), imageSize.height + _paddingBetweenImageAndTitle + titleSize.height);
-    } else {
-        return CGSizeMake(imageSize.width + _paddingBetweenImageAndTitle + titleSize.width, MAX(imageSize.height, titleSize.height));
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self commonInit];
     }
+    return self;
 }
 
-- (CGSize)intrinsicContentSize {
-    return [self szFittingSize];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit {
+    self.font = [UIFont systemFontOfSize:18];
+    self.textColor = [UIColor whiteColor];
+    
+    _edgesPadding = 8;
+    _contentsPadding = 8;
+    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.font = self.font;
+    _titleLabel.textColor = self.textColor;
+    _titleLabel.numberOfLines = 0;
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:_titleLabel];
+    
+    _imageView = [[UIImageView alloc] init];
+    [self addSubview:_imageView];
+}
+
+- (CGSize)szFittingSize {
+    [_titleLabel sizeToFit];
+    [_imageView sizeToFit];
+    
+    if (_isContentVertical) {
+        return CGSizeMake(MAX(_titleLabel.frame.size.width, _imageView.frame.size.width) + _edgesPadding*2,
+                          _titleLabel.frame.size.height + _contentsPadding + _imageView.frame.size.height + _edgesPadding*2);
+    } else {
+        return CGSizeMake(_titleLabel.frame.size.width + _contentsPadding + _imageView.frame.size.width + _edgesPadding*2,
+                          MAX(_titleLabel.frame.size.height, _imageView.frame.size.height) + _edgesPadding*2);
+    }
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     return [self szFittingSize];
 }
 
-- (CGRect)titleRectForContentRect:(CGRect)contentRect {
-    if (CGSizeEqualToSize([super titleRectForContentRect:contentRect].size, CGSizeZero)) {
-        return CGRectZero;
-    }
-
-    CGRect titleRect = CGRectZero;
-    titleRect.size = [self.currentTitle boundingRectWithSize:CGSizeZero
-                                                            options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                                                         attributes:@{NSFontAttributeName: self.titleLabel.font}
-                                                            context:nil].size;
-
-    if (_layoutImageTitleVertical) {
-        titleRect.origin.x = contentRect.size.width/2 - titleRect.size.width/2;
-        titleRect.origin.y = contentRect.size.height/2 - titleRect.size.height/2 + self.currentImage.size.height/2 + _paddingBetweenImageAndTitle/2;
-    } else {
-        titleRect.origin.x = contentRect.size.width/2 - titleRect.size.width/2 + self.currentImage.size.width/2 + _paddingBetweenImageAndTitle/2;
-        titleRect.origin.y = contentRect.size.height/2 - titleRect.size.height/2;
-    }
-    return titleRect;
+- (CGSize)intrinsicContentSize {
+    return [self szFittingSize];
 }
 
-- (CGRect)imageRectForContentRect:(CGRect)contentRect {
-    CGRect imageRect = [super imageRectForContentRect:contentRect];
-    CGSize titleSize = [self titleRectForContentRect:contentRect].size;
-
-    if (_layoutImageTitleVertical) {
-        imageRect.origin.x = contentRect.size.width/2 - imageRect.size.width/2;
-        imageRect.origin.y = (contentRect.size.height - imageRect.size.height - titleSize.height - _paddingBetweenImageAndTitle)/2;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (self.isHighlighted) {
+        self.backgroundColor = _highlightBackgroundColor;
     } else {
-        imageRect.origin.x = (contentRect.size.width - imageRect.size.width - titleSize.width - _paddingBetweenImageAndTitle)/2;
-        imageRect.origin.y = contentRect.size.height/2 - imageRect.size.height/2;
+        self.backgroundColor = _normalBackgroundColor;
     }
+    
+    [_titleLabel sizeToFit];
+    [_imageView sizeToFit];
+    
+    if (_isContentVertical) {
+        CGPoint center = CGPointMake(self.frame.size.width/2, 0);
+        center.y = (self.frame.size.height - _titleLabel.frame.size.height - _contentsPadding - _imageView.frame.size.height)/2;
+        if (_isTitleBegin) {
+            center.y += _titleLabel.frame.size.height/2;
+            _titleLabel.center = center;
+            center.y += _titleLabel.frame.size.height/2 + _imageView.frame.size.height/2 + _contentsPadding;
+            _imageView.center = center;
+        } else {
+            center.y += _imageView.frame.size.height/2;
+            _imageView.center = center;
+            center.y += _imageView.frame.size.height/2 + _contentsPadding + _titleLabel.frame.size.height/2;
+            _titleLabel.center = center;
+        }
+    } else {
+        CGPoint center = CGPointMake(0, self.frame.size.height/2);
+        center.x = (self.frame.size.width - _titleLabel.frame.size.width - _contentsPadding - _imageView.frame.size.width)/2;
+        if (_isTitleBegin) {
+            center.x += _titleLabel.frame.size.width/2;
+            _titleLabel.center = center;
+            center.x += _titleLabel.frame.size.width/2 + _imageView.frame.size.width/2 + _contentsPadding;
+            _imageView.center = center;
+        } else {
+            center.x += _imageView.frame.size.width/2;
+            _imageView.center = center;
+            center.x += _imageView.frame.size.width/2 + _contentsPadding + _titleLabel.frame.size.width/2;
+            _titleLabel.center = center;
+        }
+    }
+}
 
-    return imageRect;
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
+    if (highlighted) {
+        self.backgroundColor = _highlightBackgroundColor;
+    } else {
+        self.backgroundColor = _normalBackgroundColor;
+    }
+}
+
+- (void)setText:(NSString *)text {
+    _titleLabel.text = text;
+    
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsLayout];
+}
+
+- (NSString *)text {
+    return _titleLabel.text;
+}
+
+- (void)setFont:(UIFont *)font {
+    _font = font;
+    _titleLabel.font = font;
+    
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsLayout];
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+    _textColor = textColor;
+    
+    _titleLabel.textColor = textColor;
+    [self setNeedsLayout];
+}
+
+- (void)setImage:(UIImage *)image {
+    _imageView.image = image;
+    
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsLayout];
+}
+
+- (UIImage *)image {
+    return _imageView.image;
+}
+
+- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor {
+    _normalBackgroundColor = normalBackgroundColor;
+    
+    [self setNeedsLayout];
+}
+
+- (void)setHighlightBackgroundColor:(UIColor *)highlightBackgroundColor {
+    _highlightBackgroundColor = highlightBackgroundColor;
+    
+    [self setNeedsLayout];
 }
 
 @end

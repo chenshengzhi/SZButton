@@ -15,7 +15,7 @@
 		24DC17661D1D2BF600E911D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24DC17641D1D2BF600E911D5 /* LaunchScreen.storyboard */; };
 		24DC17711D1D2BF600E911D5 /* SZButtonDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DC17701D1D2BF600E911D5 /* SZButtonDemoTests.m */; };
 		24DC177C1D1D2BF600E911D5 /* SZButtonDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DC177B1D1D2BF600E911D5 /* SZButtonDemoUITests.m */; };
-		24DC178C1D1D2C2600E911D5 /* SZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DC178B1D1D2C2600E911D5 /* SZButton.m */; };
+		C3E2D3F61D1D597E008A791E /* SZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E2D3F51D1D597E008A791E /* SZButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +52,8 @@
 		24DC17771D1D2BF600E911D5 /* SZButton.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SZButton.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24DC177B1D1D2BF600E911D5 /* SZButtonDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZButtonDemoUITests.m; sourceTree = "<group>"; };
 		24DC177D1D1D2BF600E911D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		24DC178A1D1D2C2600E911D5 /* SZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZButton.h; sourceTree = "<group>"; };
-		24DC178B1D1D2C2600E911D5 /* SZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZButton.m; sourceTree = "<group>"; };
+		C3E2D3F41D1D597E008A791E /* SZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZButton.h; sourceTree = "<group>"; };
+		C3E2D3F51D1D597E008A791E /* SZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,8 +147,8 @@
 		24DC17891D1D2C0B00E911D5 /* SZButton */ = {
 			isa = PBXGroup;
 			children = (
-				24DC178A1D1D2C2600E911D5 /* SZButton.h */,
-				24DC178B1D1D2C2600E911D5 /* SZButton.m */,
+				C3E2D3F41D1D597E008A791E /* SZButton.h */,
+				C3E2D3F51D1D597E008A791E /* SZButton.m */,
 			);
 			name = SZButton;
 			path = ../SZButton;
@@ -286,7 +286,7 @@
 			files = (
 				24DC175E1D1D2BF600E911D5 /* ViewController.m in Sources */,
 				24DC175B1D1D2BF600E911D5 /* AppDelegate.m in Sources */,
-				24DC178C1D1D2C2600E911D5 /* SZButton.m in Sources */,
+				C3E2D3F61D1D597E008A791E /* SZButton.m in Sources */,
 				24DC17581D1D2BF600E911D5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +511,7 @@
 				24DC17821D1D2BF600E911D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		24DC17831D1D2BF600E911D5 /* Build configuration list for PBXNativeTarget "SZButtonTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +520,7 @@
 				24DC17851D1D2BF600E911D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		24DC17861D1D2BF600E911D5 /* Build configuration list for PBXNativeTarget "SZButtonUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +529,7 @@
 				24DC17881D1D2BF600E911D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

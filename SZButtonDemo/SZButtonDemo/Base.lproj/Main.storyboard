@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,11 +17,114 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O2r-YI-H3l" customClass="SZButton">
+                                <rect key="frame" x="20" y="140" width="146" height="86"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="阿萨德法师打发"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="菜单栏-购物车"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isTitleBegin" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isContentVertical" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="contentsPadding">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="edgesPadding">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightBackgroundColor">
+                                        <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fb-sc-0GV" customClass="SZButton">
+                                <rect key="frame" x="20" y="236" width="146" height="86"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="阿萨德法师打发"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="菜单栏-购物车"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isTitleBegin" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isContentVertical" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="contentsPadding">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="edgesPadding">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightBackgroundColor">
+                                        <color key="value" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PW4-gQ-IcG" customClass="SZButton">
+                                <rect key="frame" x="20" y="332" width="191" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="阿萨德法师打发"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="菜单栏-购物车"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isTitleBegin" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isContentVertical" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="contentsPadding">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="edgesPadding">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightBackgroundColor">
+                                        <color key="value" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="af9-hF-3cd" customClass="SZButton">
+                                <rect key="frame" x="20" y="386" width="191" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="阿萨德法师打发"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="菜单栏-购物车"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isTitleBegin" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isContentVertical" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="contentsPadding">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="edgesPadding">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="highlightBackgroundColor">
+                                        <color key="value" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0fb-sc-0GV" firstAttribute="leading" secondItem="O2r-YI-H3l" secondAttribute="leading" id="57Y-cV-6NF"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="O2r-YI-H3l" secondAttribute="leading" id="AQg-Sh-8oL"/>
+                            <constraint firstItem="O2r-YI-H3l" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="120" id="Pn5-Gb-EYc"/>
+                            <constraint firstItem="af9-hF-3cd" firstAttribute="top" secondItem="PW4-gQ-IcG" secondAttribute="bottom" constant="10" id="c2L-ec-XVT"/>
+                            <constraint firstItem="af9-hF-3cd" firstAttribute="leading" secondItem="O2r-YI-H3l" secondAttribute="leading" id="gPf-5Y-Wm0"/>
+                            <constraint firstItem="PW4-gQ-IcG" firstAttribute="top" secondItem="0fb-sc-0GV" secondAttribute="bottom" constant="10" id="gZL-PG-OYI"/>
+                            <constraint firstItem="0fb-sc-0GV" firstAttribute="top" secondItem="O2r-YI-H3l" secondAttribute="bottom" constant="10" id="jJv-zd-7jc"/>
+                            <constraint firstItem="PW4-gQ-IcG" firstAttribute="leading" secondItem="O2r-YI-H3l" secondAttribute="leading" id="pKf-mv-dUD"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="菜单栏-购物车" width="25" height="24"/>
+    </resources>
 </document>

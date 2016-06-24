@@ -18,71 +18,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    {
-        SZButton *btn = [SZButton buttonWithType:UIButtonTypeCustom];
-        btn.layoutImageTitleVertical = NO;
-        btn.paddingBetweenImageAndTitle = 20;
-        [btn setTitle:@"特斯特天赋" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"菜单栏-购物车"] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        [btn sizeToFit];
-        btn.frame = CGRectMake(0, 0, 205, 79);
-        btn.center = CGPointMake(200, 100);
-        [self.view addSubview:btn];
-    }
-
-    {
-        SZButton *btn = [SZButton buttonWithType:UIButtonTypeCustom];
-        btn.layoutImageTitleVertical = YES;
-        btn.paddingBetweenImageAndTitle = 20;
-        [btn setTitle:@"特斯特天赋" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"菜单栏-购物车"] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        [btn sizeToFit];
-        btn.frame = CGRectMake(0, 0, 205, 79);
-        btn.center = CGPointMake(200, 200);
-        [self.view addSubview:btn];
-    }
-
-    {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"特斯特天赋" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"菜单栏-购物车"] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        [btn sizeToFit];
-        btn.frame = CGRectMake(0, 0, 205, 79);
-        btn.center = CGPointMake(200, 300);
-        [self.view addSubview:btn];
-    }
-
-    {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"特斯特天赋" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        [btn sizeToFit];
-        btn.frame = CGRectMake(0, 0, 205, 79);
-        btn.center = CGPointMake(200, 400);
-        [self.view addSubview:btn];
-    }
-
-    {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setImage:[UIImage imageNamed:@"菜单栏-购物车"] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor lightGrayColor];
-        [btn sizeToFit];
-        btn.frame = CGRectMake(0, 0, 205, 79);
-        btn.center = CGPointMake(200, 500);
-        [self.view addSubview:btn];
-    }
+    SZButton *btn = [[SZButton alloc] init];
+    btn.text = @"是的发生的发生发生的";
+    btn.image = [UIImage imageNamed:@"菜单栏-购物车"];
+    btn.isContentVertical = YES;
+    btn.isTitleBegin = YES;
+    btn.normalBackgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+    btn.highlightBackgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+    [self.view addSubview:btn];
+    [btn addTarget:self action:@selector(tapHandler:) forControlEvents:UIControlEventTouchUpInside];
+    
+    btn.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:0]];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)tapHandler:(id)sender {
+    NSLog(@"%@", sender);
 }
 
 @end
