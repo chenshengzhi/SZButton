@@ -8,59 +8,31 @@
 
 #import "SZButton.h"
 
-@interface SZButton ()
-
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIImageView *imageView;
-
-@end
-
 @implementation SZButton
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (void)commonInit {
-    self.font = [UIFont systemFontOfSize:18];
-    self.textColor = [UIColor whiteColor];
-    
-    _edgesPadding = 8;
-    _contentsPadding = 8;
-    
-    _titleLabel = [[UILabel alloc] init];
-    _titleLabel.font = self.font;
-    _titleLabel.textColor = self.textColor;
-    _titleLabel.numberOfLines = 0;
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:_titleLabel];
-    
-    _imageView = [[UIImageView alloc] init];
-    [self addSubview:_imageView];
-}
-
 - (CGSize)szFittingSize {
-    [_titleLabel sizeToFit];
-    [_imageView sizeToFit];
-    
-    if (_isContentVertical) {
-        return CGSizeMake(MAX(_titleLabel.frame.size.width, _imageView.frame.size.width) + _edgesPadding*2,
-                          _titleLabel.frame.size.height + _contentsPadding + _imageView.frame.size.height + _edgesPadding*2);
+    CGSize imageSize = self.currentImage.size;
+    CGSize titleSize = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName: self.titleLabel.font}];
+    if (self.vertical) {
+        CGFloat width = (self.contentEdgeInsets.left
+                         + MAX(titleSize.width, imageSize.width)
+                         + self.contentEdgeInsets.right);
+        CGFloat height = (self.contentEdgeInsets.top
+                          + titleSize.height
+                          + self.paddingBetweenTitleLabelAndImageView
+                          + imageSize.height
+                          + self.contentEdgeInsets.bottom);
+        return CGSizeMake(width, height);
     } else {
-        return CGSizeMake(_titleLabel.frame.size.width + _contentsPadding + _imageView.frame.size.width + _edgesPadding*2,
-                          MAX(_titleLabel.frame.size.height, _imageView.frame.size.height) + _edgesPadding*2);
+        CGFloat width = (self.contentEdgeInsets.left
+                         + titleSize.width
+                         + self.paddingBetweenTitleLabelAndImageView
+                         + imageSize.width
+                         + self.contentEdgeInsets.right);
+        CGFloat height = (self.contentEdgeInsets.top
+                          + MAX(titleSize.height, imageSize.height)
+                          + self.contentEdgeInsets.bottom);
+        return CGSizeMake(width, height);
     }
 }
 
@@ -72,106 +44,66 @@
     return [self szFittingSize];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (self.isHighlighted) {
-        self.backgroundColor = _highlightBackgroundColor;
-    } else {
-        self.backgroundColor = _normalBackgroundColor;
+- (CGRect)imageRectForContentRect:(CGRect)contentRect {
+    if (CGRectEqualToRect(contentRect, CGRectZero)) {
+        return CGRectZero;
     }
-    
-    [_titleLabel sizeToFit];
-    [_imageView sizeToFit];
-    
-    if (_isContentVertical) {
-        CGPoint center = CGPointMake(self.frame.size.width/2, 0);
-        center.y = (self.frame.size.height - _titleLabel.frame.size.height - _contentsPadding - _imageView.frame.size.height)/2;
-        if (_isTitleBegin) {
-            center.y += _titleLabel.frame.size.height/2;
-            _titleLabel.center = center;
-            center.y += _titleLabel.frame.size.height/2 + _imageView.frame.size.height/2 + _contentsPadding;
-            _imageView.center = center;
+    if (self.currentImage) {
+        CGSize imageSize = self.currentImage.size;
+        CGFloat x = 0;
+        CGFloat y = 0;
+        if (self.vertical) {
+            x = contentRect.origin.x + (contentRect.size.width/2 - imageSize.width/2);
+            if (self.titleAhead) {
+                y = CGRectGetMaxY(contentRect) - imageSize.height;
+            } else {
+                y = contentRect.origin.y;
+            }
+            return CGRectMake(x, y, imageSize.width, imageSize.height);
         } else {
-            center.y += _imageView.frame.size.height/2;
-            _imageView.center = center;
-            center.y += _imageView.frame.size.height/2 + _contentsPadding + _titleLabel.frame.size.height/2;
-            _titleLabel.center = center;
+            if (self.titleAhead) {
+                x = CGRectGetMaxX(contentRect) - imageSize.width;
+            } else {
+                x = contentRect.origin.x;
+            }
+            y = contentRect.origin.y + (contentRect.size.height/2 - imageSize.height/2);
         }
+        return CGRectMake(x, y, imageSize.width, imageSize.height);
     } else {
-        CGPoint center = CGPointMake(0, self.frame.size.height/2);
-        center.x = (self.frame.size.width - _titleLabel.frame.size.width - _contentsPadding - _imageView.frame.size.width)/2;
-        if (_isTitleBegin) {
-            center.x += _titleLabel.frame.size.width/2;
-            _titleLabel.center = center;
-            center.x += _titleLabel.frame.size.width/2 + _imageView.frame.size.width/2 + _contentsPadding;
-            _imageView.center = center;
+        return [super imageRectForContentRect:contentRect];
+    }
+}
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect {
+    if (CGRectEqualToRect(contentRect, CGRectZero)) {
+        return CGRectZero;
+    }
+    if (self.currentTitle) {
+        if (CGSizeEqualToSize([super titleRectForContentRect:contentRect].size, CGSizeZero)) {
+            return CGRectZero;
+        }
+        CGSize titleSize = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName: self.titleLabel.font}];
+        CGFloat x = 0;
+        CGFloat y = 0;
+        if (self.vertical) {
+            x = contentRect.origin.x + (contentRect.size.width/2 - titleSize.width/2);
+            if (!self.titleAhead) {
+                y = CGRectGetMaxY(contentRect) - titleSize.height;
+            } else {
+                y = contentRect.origin.y;
+            }
         } else {
-            center.x += _imageView.frame.size.width/2;
-            _imageView.center = center;
-            center.x += _imageView.frame.size.width/2 + _contentsPadding + _titleLabel.frame.size.width/2;
-            _titleLabel.center = center;
+            if (!self.titleAhead) {
+                x = CGRectGetMaxX(contentRect) - titleSize.width;
+            } else {
+                x = contentRect.origin.x;
+            }
+            y = contentRect.origin.y + (contentRect.size.height/2 - titleSize.height/2);
         }
-    }
-}
-
-- (void)setHighlighted:(BOOL)highlighted {
-    [super setHighlighted:highlighted];
-    
-    if (highlighted) {
-        self.backgroundColor = _highlightBackgroundColor;
+        return CGRectMake(x, y, titleSize.width, titleSize.height);
     } else {
-        self.backgroundColor = _normalBackgroundColor;
+        return [super titleRectForContentRect:contentRect];
     }
-}
-
-- (void)setText:(NSString *)text {
-    _titleLabel.text = text;
-    
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout];
-}
-
-- (NSString *)text {
-    return _titleLabel.text;
-}
-
-- (void)setFont:(UIFont *)font {
-    _font = font;
-    _titleLabel.font = font;
-    
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout];
-}
-
-- (void)setTextColor:(UIColor *)textColor {
-    _textColor = textColor;
-    
-    _titleLabel.textColor = textColor;
-    [self setNeedsLayout];
-}
-
-- (void)setImage:(UIImage *)image {
-    _imageView.image = image;
-    
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout];
-}
-
-- (UIImage *)image {
-    return _imageView.image;
-}
-
-- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor {
-    _normalBackgroundColor = normalBackgroundColor;
-    
-    [self setNeedsLayout];
-}
-
-- (void)setHighlightBackgroundColor:(UIColor *)highlightBackgroundColor {
-    _highlightBackgroundColor = highlightBackgroundColor;
-    
-    [self setNeedsLayout];
 }
 
 @end

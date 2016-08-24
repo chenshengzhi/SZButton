@@ -9,26 +9,10 @@
 #import <UIKit/UIKit.h>
 
 IB_DESIGNABLE
-@interface SZButton : UIControl
+@interface SZButton : UIButton
 
-@property (nonatomic, strong) IBInspectable NSString *text;
-//[UIFont systemFontOfSize:18]
-@property (nonatomic, strong) IBInspectable UIFont *font;
-//[UIColor whiteColor]
-@property (nonatomic, strong) IBInspectable UIColor *textColor;
-
-@property (nonatomic, strong) IBInspectable UIImage *image;
-
-//8
-@property (nonatomic) IBInspectable CGFloat edgesPadding;
-//NO
-@property (nonatomic) IBInspectable BOOL isContentVertical;
-//NO
-@property (nonatomic) IBInspectable BOOL isTitleBegin;
-//8
-@property (nonatomic) IBInspectable CGFloat contentsPadding;
-
-@property (nonatomic, strong) IBInspectable UIColor *normalBackgroundColor;
-@property (nonatomic, strong) IBInspectable UIColor *highlightBackgroundColor;
+@property (nonatomic) IBInspectable BOOL vertical;
+@property (nonatomic) IBInspectable BOOL titleAhead;
+@property (nonatomic) IBInspectable CGFloat paddingBetweenTitleLabelAndImageView;
 
 @end
