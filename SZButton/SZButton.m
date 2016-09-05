@@ -49,26 +49,9 @@
         return CGRectZero;
     }
     if (self.currentImage) {
-        CGSize imageSize = self.currentImage.size;
-        CGFloat x = 0;
-        CGFloat y = 0;
-        if (self.vertical) {
-            x = contentRect.origin.x + (contentRect.size.width/2 - imageSize.width/2);
-            if (self.titleAhead) {
-                y = CGRectGetMaxY(contentRect) - imageSize.height;
-            } else {
-                y = contentRect.origin.y;
-            }
-            return CGRectMake(x, y, imageSize.width, imageSize.height);
-        } else {
-            if (self.titleAhead) {
-                x = CGRectGetMaxX(contentRect) - imageSize.width;
-            } else {
-                x = contentRect.origin.x;
-            }
-            y = contentRect.origin.y + (contentRect.size.height/2 - imageSize.height/2);
-        }
-        return CGRectMake(x, y, imageSize.width, imageSize.height);
+        CGRect targetImageRect = CGRectZero;
+        [self targetTitleRect:NULL targetImageRect:&targetImageRect forContentRect:contentRect];
+        return targetImageRect;
     } else {
         return [super imageRectForContentRect:contentRect];
     }
@@ -82,27 +65,74 @@
         if (CGSizeEqualToSize([super titleRectForContentRect:contentRect].size, CGSizeZero)) {
             return CGRectZero;
         }
-        CGSize titleSize = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName: self.titleLabel.font}];
-        CGFloat x = 0;
-        CGFloat y = 0;
-        if (self.vertical) {
-            x = contentRect.origin.x + (contentRect.size.width/2 - titleSize.width/2);
-            if (!self.titleAhead) {
-                y = CGRectGetMaxY(contentRect) - titleSize.height;
-            } else {
-                y = contentRect.origin.y;
-            }
-        } else {
-            if (!self.titleAhead) {
-                x = CGRectGetMaxX(contentRect) - titleSize.width;
-            } else {
-                x = contentRect.origin.x;
-            }
-            y = contentRect.origin.y + (contentRect.size.height/2 - titleSize.height/2);
-        }
-        return CGRectMake(x, y, titleSize.width, titleSize.height);
+        CGRect targetTitleRect = CGRectZero;
+        [self targetTitleRect:&targetTitleRect targetImageRect:NULL forContentRect:contentRect];
+        return targetTitleRect;
     } else {
         return [super titleRectForContentRect:contentRect];
+    }
+}
+
+- (void)targetTitleRect:(CGRect *)targetTitleRect
+        targetImageRect:(CGRect *)targetImageRect
+         forContentRect:(CGRect)contentRect {
+    CGSize imageSize = self.currentImage.size;
+    CGSize titleSize = [self.currentTitle sizeWithAttributes:@{NSFontAttributeName: self.titleLabel.font}];
+    titleSize = CGSizeMake(ceil(titleSize.width), ceil(titleSize.height));
+
+    CGFloat x = 0;
+    CGFloat y = 0;
+    if (self.vertical) {
+        x = contentRect.origin.x + (contentRect.size.width/2 - titleSize.width/2);
+        y = contentRect.origin.y + (contentRect.size.height
+                                    - titleSize.height
+                                    - self.paddingBetweenTitleLabelAndImageView
+                                    - imageSize.height) / 2;
+
+        if (targetTitleRect != NULL) {
+            *targetTitleRect = CGRectMake(contentRect.origin.x + (contentRect.size.width/2 - titleSize.width/2),
+                                          y,
+                                          titleSize.width,
+                                          titleSize.height);
+            if (!self.titleAhead) {
+                (*targetTitleRect).origin.y += imageSize.height + self.paddingBetweenTitleLabelAndImageView;
+            }
+        }
+
+        if (targetImageRect != NULL) {
+            *targetImageRect = CGRectMake(contentRect.origin.x + (contentRect.size.width/2 - imageSize.width/2),
+                                          y,
+                                          imageSize.width,
+                                          imageSize.height);
+            if (self.titleAhead) {
+                (*targetImageRect).origin.y += titleSize.height + self.paddingBetweenTitleLabelAndImageView;
+            }
+        }
+    } else {
+        x = contentRect.origin.x + (contentRect.size.width
+                                    - titleSize.width
+                                    - self.paddingBetweenTitleLabelAndImageView
+                                    - imageSize.width) / 2;
+
+        if (targetTitleRect != NULL) {
+            *targetTitleRect = CGRectMake(x,
+                                          contentRect.origin.y + (contentRect.size.height/2 - titleSize.height/2),
+                                          titleSize.width,
+                                          titleSize.height);
+            if (!self.titleAhead) {
+                (*targetTitleRect).origin.x += imageSize.width + self.paddingBetweenTitleLabelAndImageView;
+            }
+        }
+
+        if (targetImageRect != NULL) {
+            *targetImageRect = CGRectMake(x,
+                                          contentRect.origin.y + (contentRect.size.height/2 - imageSize.height/2),
+                                          imageSize.width,
+                                          imageSize.height);
+            if (self.titleAhead) {
+                (*targetImageRect).origin.x += titleSize.width + self.paddingBetweenTitleLabelAndImageView;
+            }
+        }
     }
 }
 
